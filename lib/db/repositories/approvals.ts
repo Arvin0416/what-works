@@ -1,12 +1,16 @@
-import { and, eq } from "drizzle-orm";
+import { and, eq, gt, isNull } from "drizzle-orm";
 import {
   ReviewPackageSchema,
   ValidationReportSchema,
   type ArticleStatus,
   type ReviewPackage,
 } from "../../content/types";
+import type {
+  ApprovalTokenAction,
+  PersistedApprovalToken,
+} from "../../notifications/approval-tokens";
 import type { Database, DatabaseExecutor } from "../client";
-import { articleVersions, articles } from "../schema";
+import { approvalTokens, articleVersions, articles } from "../schema";
 import { getArticleVersionSnapshot } from "./articles";
 
 export const LEGAL_ARTICLE_STATUS_TRANSITIONS: Readonly<
@@ -154,5 +158,78 @@ export async function transitionArticleStatus(
         publishedAt: input.to === "published" ? now : undefined,
       })
       .where(eq(articles.id, current.articleId));
+  });
+}
+
+/**
+ * Persist only the SHA-256 digest of a bearer token. The raw value belongs
+ * solely in the generated email link and is never stored in PostgreSQL.
+ */
+export async function createApprovalTokenRecord(
+  db: Database,
+  input: Omit<PersistedApprovalToken, "consumedAt">,
+): Promise<void> {
+  await db
+    .insert(approvalTokens)
+    .values({
+      tokenHash: input.tokenHash,
+      versionId: input.versionId,
+      action: input.action,
+      expiresAt: input.expiresAt,
+    })
+    .onConflictDoNothing({ target: approvalTokens.tokenHash });
+}
+
+export async function getApprovalTokenRecord(
+  db: DatabaseExecutor,
+  tokenHash: string,
+): Promise<PersistedApprovalToken | null> {
+  const [record] = await db
+    .select({
+      tokenHash: approvalTokens.tokenHash,
+      versionId: approvalTokens.versionId,
+      action: approvalTokens.action,
+      expiresAt: approvalTokens.expiresAt,
+      consumedAt: approvalTokens.consumedAt,
+    })
+    .from(approvalTokens)
+    .where(eq(approvalTokens.tokenHash, tokenHash))
+    .limit(1);
+
+  return record
+    ? {
+        tokenHash: record.tokenHash,
+        versionId: record.versionId,
+        action: record.action as ApprovalTokenAction,
+        expiresAt: record.expiresAt,
+        consumedAt: record.consumedAt,
+      }
+    : null;
+}
+
+/**
+ * Atomically claim a still-live token. The WHERE clause makes concurrent
+ * approval requests single-use even when both requests pass cryptographic
+ * verification at the same time.
+ */
+export async function consumeApprovalToken(
+  db: Database,
+  tokenHash: string,
+  now = new Date(),
+): Promise<boolean> {
+  return db.transaction(async (tx) => {
+    const consumed = await tx
+      .update(approvalTokens)
+      .set({ consumedAt: now })
+      .where(
+        and(
+          eq(approvalTokens.tokenHash, tokenHash),
+          isNull(approvalTokens.consumedAt),
+          gt(approvalTokens.expiresAt, now),
+        ),
+      )
+      .returning({ id: approvalTokens.id });
+
+    return consumed.length > 0;
   });
 }
