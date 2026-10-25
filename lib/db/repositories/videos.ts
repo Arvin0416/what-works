@@ -1,10 +1,29 @@
 import { asc, eq } from "drizzle-orm";
 import {
+  ApprovedChannelSchema,
   VideoRecommendationSchema,
   type VideoRecommendation,
 } from "../../content/types";
 import type { DatabaseExecutor } from "../client";
-import { videoRecommendations } from "../schema";
+import { channelAllowlist, videoRecommendations } from "../schema";
+
+export async function getActiveApprovedChannels(db: DatabaseExecutor) {
+  const rows = await db
+    .select()
+    .from(channelAllowlist)
+    .where(eq(channelAllowlist.active, true))
+    .orderBy(asc(channelAllowlist.name));
+
+  return rows.map((row) =>
+    ApprovedChannelSchema.parse({
+      id: row.id,
+      name: row.name,
+      handle: row.handle,
+      canonicalUrl: row.canonicalUrl,
+      active: row.active,
+    }),
+  );
+}
 
 export async function insertVideoRecommendations(
   db: DatabaseExecutor,

@@ -60,7 +60,11 @@ const seedArticleData = {
       channelId: "pastor-vlad",
       channelName: "Pastor Vlad",
       thumbnailUrl: "",
-      watchUrl: "https://www.youtube.com/watch?v=seed-prayer-01",
+      // The no-key seed experience links to an honest YouTube search instead
+      // of inventing a video ID. Live discovery replaces this fixture with a
+      // verified video URL from the Data API.
+      watchUrl:
+        "https://www.youtube.com/results?search_query=Pastor+Vlad+prayer+when+faith+feels+quiet",
       durationSeconds: null,
       topicId: "spiritual-growth",
       source: "youtube",
@@ -71,7 +75,8 @@ const seedArticleData = {
       channelId: "victory",
       channelName: "Victory",
       thumbnailUrl: "",
-      watchUrl: "https://youtu.be/seed-prayer-02",
+      watchUrl:
+        "https://www.youtube.com/results?search_query=Victory+Philippines+returning+to+prayer",
       durationSeconds: null,
       topicId: "prayer",
       source: "youtube",
@@ -82,7 +87,8 @@ const seedArticleData = {
       channelId: "every-nation",
       channelName: "Every Nation",
       thumbnailUrl: "",
-      watchUrl: "https://www.youtube.com/watch?v=seed-prayer-03",
+      watchUrl:
+        "https://www.youtube.com/results?search_query=Every+Nation+faithful+next+step",
       durationSeconds: null,
       topicId: "spiritual-growth",
       source: "youtube",

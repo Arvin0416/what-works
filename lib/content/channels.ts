@@ -10,21 +10,23 @@ export const APPROVED_CHANNELS = [
     name: "Pastor Vlad",
     handle: "@PastorVlad",
     canonicalUrl: "https://www.youtube.com/@PastorVlad",
-    active: true,
+    // The checked-in handles are review configuration only. Operators must
+    // replace/verify the stable YouTube channel IDs before activation.
+    active: false,
   },
   {
     id: "victory",
     name: "Victory",
     handle: "@Victory",
     canonicalUrl: "https://www.youtube.com/@Victory",
-    active: true,
+    active: false,
   },
   {
     id: "every-nation",
     name: "Every Nation",
     handle: "@EveryNation",
     canonicalUrl: "https://www.youtube.com/@EveryNation",
-    active: true,
+    active: false,
   },
 ] as const satisfies readonly ApprovedChannel[];
 

@@ -1,5 +1,7 @@
+import { APPROVED_CHANNELS } from "../../content/channels";
 import { getSeedPublishedArticle } from "../../content/seed";
 import type {
+  ApprovedChannel,
   ArticleStatus,
   ArticleVersionInput,
   GenerationRunInput,
@@ -19,6 +21,7 @@ import {
 import {
   saveGenerationRun as saveGenerationRunInDatabase,
 } from "./generation-runs";
+import { getActiveApprovedChannels as getActiveApprovedChannelsInDatabase } from "./videos";
 
 export interface ContentRepository {
   getPublishedArticles(): Promise<PublishedArticle[]>;
@@ -46,6 +49,15 @@ export class DatabaseRepositoryUnavailableError extends Error {
 
 export function getRepositoryMode(): "database" | "seed" {
   return process.env.DATABASE_URL?.trim() ? "database" : "seed";
+}
+
+export async function getActiveApprovedChannels(): Promise<ApprovedChannel[]> {
+  if (getRepositoryMode() === "seed") {
+    return APPROVED_CHANNELS.filter((channel) => channel.active);
+  }
+
+  const { getDatabase } = await import("../client");
+  return getActiveApprovedChannelsInDatabase(getDatabase());
 }
 
 export function createDatabaseRepository(db: Database): ContentRepository {

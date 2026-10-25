@@ -40,7 +40,7 @@ describe("content seed", () => {
     }
   });
 
-  it("defines the requested faith categories and approved source channels", () => {
+  it("defines the requested faith categories and inactive review channels", () => {
     expect(FAITH_CATEGORIES.map((category) => category.id)).toEqual([
       "temptation",
       "family",
@@ -57,7 +57,7 @@ describe("content seed", () => {
       "Victory",
       "Every Nation",
     ]);
-    expect(APPROVED_CHANNELS.every((channel) => channel.active)).toBe(true);
+    expect(APPROVED_CHANNELS.every((channel) => !channel.active)).toBe(true);
     expect(
       APPROVED_CHANNELS.every((channel) =>
         channel.canonicalUrl.startsWith("https://www.youtube.com/"),
