@@ -3,6 +3,7 @@ import type { PublishedArticle } from "../../lib/content/types";
 import { WatchGallery } from "./watch-gallery";
 import { SafetyNote } from "./safety-note";
 import { SourceList } from "./source-list";
+import { ScrollReveal } from "./scroll-reveal";
 
 type ArticleReaderProps = {
   article: PublishedArticle;
@@ -27,7 +28,7 @@ export function ArticleReader({ article }: ArticleReaderProps) {
   return (
     <article className="article-reader" aria-labelledby="article-title">
       <header className="today-section article-reader__header">
-        <div className="site-container">
+        <ScrollReveal className="site-container article-reader__header-reveal" rootMargin="0px 0px -4% 0px">
           <div style={{ maxWidth: "52rem", marginInline: "auto" }}>
             <p className="section-kicker" style={{ color: "var(--acid-green)" }}>
               Published guide · {category?.label ?? "Faith guide"}
@@ -61,7 +62,7 @@ export function ArticleReader({ article }: ArticleReaderProps) {
               <span>{article.content.readingMinutes} min read</span>
             </div>
           </div>
-        </div>
+        </ScrollReveal>
       </header>
 
       <div
@@ -81,92 +82,102 @@ export function ArticleReader({ article }: ArticleReaderProps) {
             {article.content.summary}
           </p>
 
-          <section
-            aria-labelledby="scripture-heading"
-            style={{ marginTop: "3.5rem" }}
-          >
-            <p className="section-kicker">Grounded in Scripture</p>
-            <h2 id="scripture-heading">Scripture references</h2>
-            <ul
-              style={{
-                display: "flex",
-                flexWrap: "wrap",
-                gap: "0.65rem",
-                margin: "1.5rem 0 0",
-                padding: 0,
-                listStyle: "none",
-              }}
+          <ScrollReveal className="article-reader__section-reveal" rootMargin="0px 0px -10% 0px">
+            <section
+              aria-labelledby="scripture-heading"
+              style={{ marginTop: "3.5rem" }}
             >
-              {article.content.scriptureRefs.map((reference) => (
-                <li
-                  key={reference}
-                  style={{
-                    padding: "0.7rem 0.9rem",
-                    border: "1px solid var(--line-strong)",
-                    borderRadius: "999px",
-                    fontFamily: '"SFMono-Regular", Consolas, monospace',
-                    fontSize: "0.82rem",
-                    fontWeight: 700,
-                  }}
-                >
-                  <cite>{reference}</cite>
-                </li>
-              ))}
-            </ul>
-          </section>
+              <p className="section-kicker">Grounded in Scripture</p>
+              <h2 id="scripture-heading">Scripture references</h2>
+              <ul
+                style={{
+                  display: "flex",
+                  flexWrap: "wrap",
+                  gap: "0.65rem",
+                  margin: "1.5rem 0 0",
+                  padding: 0,
+                  listStyle: "none",
+                }}
+              >
+                {article.content.scriptureRefs.map((reference) => (
+                  <li
+                    key={reference}
+                    style={{
+                      padding: "0.7rem 0.9rem",
+                      border: "1px solid var(--line-strong)",
+                      borderRadius: "999px",
+                      fontFamily: '"SFMono-Regular", Consolas, monospace',
+                      fontSize: "0.82rem",
+                      fontWeight: 700,
+                    }}
+                  >
+                    <cite>{reference}</cite>
+                  </li>
+                ))}
+              </ul>
+            </section>
+          </ScrollReveal>
 
           <div style={{ marginTop: "4rem" }}>
             {article.content.sections.map((section, index) => {
               const headingId = `article-section-${index + 1}`;
 
               return (
-                <section
+                <ScrollReveal
                   key={`${headingId}-${section.heading}`}
-                  aria-labelledby={headingId}
-                  style={{ marginTop: index === 0 ? 0 : "3rem" }}
+                  className="article-reader__section-reveal"
+                  rootMargin="0px 0px -10% 0px"
                 >
-                  <h2 id={headingId}>{section.heading}</h2>
-                  <p
-                    style={{
-                      maxWidth: "43rem",
-                      marginTop: "1.1rem",
-                      fontSize: "1.08rem",
-                      lineHeight: 1.75,
-                    }}
+                  <section
+                    aria-labelledby={headingId}
+                    style={{ marginTop: index === 0 ? 0 : "3rem" }}
                   >
-                    {section.body}
-                  </p>
-                </section>
+                    <h2 id={headingId}>{section.heading}</h2>
+                    <p
+                      style={{
+                        maxWidth: "43rem",
+                        marginTop: "1.1rem",
+                        fontSize: "1.08rem",
+                        lineHeight: 1.75,
+                      }}
+                    >
+                      {section.body}
+                    </p>
+                  </section>
+                </ScrollReveal>
               );
             })}
           </div>
 
-          <section
-            className="faith-workbench__panel"
-            aria-labelledby="prayer-heading"
-            style={{ position: "relative", marginTop: "4rem" }}
-          >
-            <span className="faith-workbench__panel-label">A prayer for this moment</span>
-            <h2 id="prayer-heading" style={{ marginTop: "2.5rem" }}>
-              Pray it honestly.
-            </h2>
-            <p>{article.content.prayer}</p>
-          </section>
+          <ScrollReveal className="article-reader__prayer-reveal" rootMargin="0px 0px -10% 0px">
+            <section
+              className="faith-workbench__panel"
+              aria-labelledby="prayer-heading"
+              style={{ position: "relative", marginTop: "4rem" }}
+            >
+              <span className="faith-workbench__panel-label">A prayer for this moment</span>
+              <h2 id="prayer-heading" style={{ marginTop: "2.5rem" }}>
+                Pray it honestly.
+              </h2>
+              <p>{article.content.prayer}</p>
+            </section>
+          </ScrollReveal>
         </div>
       </div>
 
-      <SafetyNote note={article.content.safetyNote} />
-      <SourceList sources={article.sources} />
+      <ScrollReveal className="article-reader__support-reveal" rootMargin="0px 0px -8% 0px">
+        <SafetyNote note={article.content.safetyNote} />
+      </ScrollReveal>
+      <ScrollReveal className="article-reader__support-reveal" rootMargin="0px 0px -8% 0px">
+        <SourceList sources={article.sources} />
+      </ScrollReveal>
       <section aria-labelledby="related-videos-heading">
-        <div
-          className="site-container"
-          style={{ paddingBlock: "clamp(3rem, 6vw, 5rem) 2rem" }}
-        >
+        <ScrollReveal className="site-container article-reader__related-heading" rootMargin="0px 0px -8% 0px">
           <div style={{ maxWidth: "48rem", marginInline: "auto" }}>
             <p className="section-kicker">Keep exploring</p>
             <h2 id="related-videos-heading">Related videos</h2>
           </div>
-        </div>
+        </ScrollReveal>
         <WatchGallery videos={article.videos} />
       </section>
     </article>

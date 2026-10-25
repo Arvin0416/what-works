@@ -2,6 +2,8 @@
 
 import { useEffect, useRef, useState } from "react";
 
+import { ScrollReveal } from "./scroll-reveal";
+
 export type FaithWorkbenchStep = {
   id: string;
   label: string;
@@ -70,7 +72,7 @@ export function FaithWorkbench({ steps }: FaithWorkbenchProps) {
       aria-labelledby="workbench-heading"
     >
       <div className="site-container faith-workbench__layout">
-        <div className="faith-workbench__copy">
+        <ScrollReveal className="faith-workbench__copy">
           <p className="section-kicker">A practice for the moment</p>
           <h2 id="workbench-heading">What works in this moment?</h2>
           <p>
@@ -97,37 +99,39 @@ export function FaithWorkbench({ steps }: FaithWorkbenchProps) {
               </button>
             ))}
           </div>
-        </div>
+        </ScrollReveal>
 
         <div className="faith-workbench__panel" id={panelId} aria-live="polite">
           <p className="faith-workbench__panel-label">Active step</p>
-          <h3>{activeStep.label}</h3>
-          <p>{activeStep.body}</p>
+          <h3 key={`label-${activeStep.id}`}>{activeStep.label}</h3>
+          <p key={`body-${activeStep.id}`}>{activeStep.body}</p>
         </div>
 
-        <ol className="faith-workbench__steps">
-          {steps.map((step, index) => (
-            <li
-              key={step.id}
-              id={`faith-workbench-step-${step.id}`}
-              className={`faith-workbench__step${
-                activeStepId === step.id ? " faith-workbench__step--active" : ""
-              }`}
-              data-step-id={step.id}
-              ref={(element) => {
-                stepRefs.current[step.id] = element;
-              }}
-            >
-              <span className="faith-workbench__step-number" aria-hidden="true">
-                {String(index + 1).padStart(2, "0")}
-              </span>
-              <div>
-                <h3>{step.label}</h3>
-                <p>{step.body}</p>
-              </div>
-            </li>
-          ))}
-        </ol>
+        <ScrollReveal className="faith-workbench__steps-reveal" rootMargin="0px 0px -8% 0px">
+          <ol className="faith-workbench__steps scroll-stagger">
+            {steps.map((step, index) => (
+              <li
+                key={step.id}
+                id={`faith-workbench-step-${step.id}`}
+                className={`faith-workbench__step${
+                  activeStepId === step.id ? " faith-workbench__step--active" : ""
+                }`}
+                data-step-id={step.id}
+                ref={(element) => {
+                  stepRefs.current[step.id] = element;
+                }}
+              >
+                <span className="faith-workbench__step-number" aria-hidden="true">
+                  {String(index + 1).padStart(2, "0")}
+                </span>
+                <div>
+                  <h3>{step.label}</h3>
+                  <p>{step.body}</p>
+                </div>
+              </li>
+            ))}
+          </ol>
+        </ScrollReveal>
       </div>
     </section>
   );

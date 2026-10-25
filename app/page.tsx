@@ -6,6 +6,7 @@ import { SiteHeader } from "../components/site/site-header";
 import { StruggleFilter } from "../components/site/struggle-filter";
 import { TodayArticleCard } from "../components/site/today-article-card";
 import { WatchGallery } from "../components/site/watch-gallery";
+import { ScrollReveal } from "../components/site/scroll-reveal";
 import { FAITH_CATEGORIES } from "../lib/content/categories";
 import { getSeedPublishedArticle } from "../lib/content/public-content";
 
@@ -46,7 +47,7 @@ export default function HomePage() {
         <WatchGallery videos={article.videos} />
 
         <section className="archive-section" aria-labelledby="archive-heading">
-          <div className="site-container">
+          <ScrollReveal className="site-container">
             <div className="archive-section__intro">
               <div>
                 <p className="section-kicker">The archive</p>
@@ -60,11 +61,11 @@ export default function HomePage() {
             <div className="article-card-grid article-card-grid--archive">
               <ArticleCard article={article} />
             </div>
-          </div>
+          </ScrollReveal>
         </section>
 
         <section id="about" className="trust-section" aria-labelledby="about-heading">
-          <div className="site-container">
+          <ScrollReveal className="site-container">
             <div className="trust-section__intro">
               <p className="section-kicker">How we work</p>
               <h2 id="about-heading">Useful, sourced, and honest about limits.</h2>
@@ -95,7 +96,7 @@ export default function HomePage() {
                 <p>{article.content.safetyNote}</p>
               </article>
             </div>
-          </div>
+          </ScrollReveal>
         </section>
       </main>
       <SiteFooter />

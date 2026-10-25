@@ -71,6 +71,21 @@ Additional observations:
   model mobile network, device CPU, cache state outside the fresh contexts, or
   third-party conditions.
 
+## Motion pass verification
+
+Captured 2026-10-25 (Asia/Manila) after adding the CSS/IntersectionObserver
+motion layer. The collector used the same five-run-per-viewport method and the
+same unthrottled local production conditions as the baseline above.
+
+| Viewport | LCP per run (ms) | LCP median | CLS median | observed click duration per run (ms) | click median | JS transfer | JS requests | image requests |
+| --- | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: |
+| Desktop 1440×900 | 84, 36, 32, 36, 32 | **36 ms** | **0** | 64, 48, 40, 40, 56 | **48 ms** | **111,599 B** | 6 | 0 |
+| Chromium 390×844 | 28, 28, 28, 28, 28 | **28 ms** | **0** | 40, 40, 48, 40, 48 | **40 ms** | **111,599 B** | 6 | 0 |
+
+The motion layer adds one small client chunk (about 2.3 kB of transfer) and
+keeps the measured layout stability at zero. The click samples remain short,
+but are synthetic interaction timings rather than field INP.
+
 ## Read-only checks
 
 The name-only secret audit was run without printing secret values:

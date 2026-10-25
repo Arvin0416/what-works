@@ -8,6 +8,7 @@ import type {
   StruggleCategory,
 } from "../../lib/content/types";
 import { ArticleCard } from "./article-card";
+import { ScrollReveal } from "./scroll-reveal";
 
 type StruggleFilterProps = {
   categories?: readonly StruggleCategory[];
@@ -52,7 +53,7 @@ export function StruggleFilter({
       aria-labelledby="struggles-heading"
     >
       <div className="site-container">
-        <div className="struggle-section__intro">
+        <ScrollReveal className="struggle-section__intro">
           <div>
             <p className="section-kicker">Browse by struggle</p>
             <h2 id="struggles-heading">Start with the hard thing.</h2>
@@ -61,41 +62,45 @@ export function StruggleFilter({
             Choose a situation to find a practical guide, or stay with the
             full shelf and see what is available today.
           </p>
-        </div>
+        </ScrollReveal>
 
-        <div
-          className="struggle-filter__controls"
-          role="group"
-          aria-label="Filter guides by struggle"
-        >
-          <button
-            className="struggle-filter__button"
-            type="button"
-            aria-pressed={activeCategoryId === "all"}
-            onClick={() => setActiveCategoryId("all")}
+        <ScrollReveal className="struggle-filter__controls-reveal" rootMargin="0px 0px -8% 0px">
+          <div
+            className="struggle-filter__controls"
+            role="group"
+            aria-label="Filter guides by struggle"
           >
-            All guides
-          </button>
-          {categories.map((category) => (
             <button
-              key={category.id}
               className="struggle-filter__button"
               type="button"
-              aria-pressed={activeCategoryId === category.id}
-              data-accent={category.accent}
-              onClick={() => setActiveCategoryId(category.id)}
+              aria-pressed={activeCategoryId === "all"}
+              onClick={() => setActiveCategoryId("all")}
             >
-              {category.label}
+              All guides
             </button>
-          ))}
-        </div>
+            {categories.map((category) => (
+              <button
+                key={category.id}
+                className="struggle-filter__button"
+                type="button"
+                aria-pressed={activeCategoryId === category.id}
+                data-accent={category.accent}
+                onClick={() => setActiveCategoryId(category.id)}
+              >
+                {category.label}
+              </button>
+            ))}
+          </div>
+        </ScrollReveal>
 
-        <p className="struggle-filter__status" role="status" aria-live="polite">
-          {resultLabel}
-        </p>
+        <ScrollReveal className="struggle-filter__status-reveal" rootMargin="0px 0px -8% 0px">
+          <p className="struggle-filter__status" role="status" aria-live="polite">
+            {resultLabel}
+          </p>
+        </ScrollReveal>
 
         {articles.length > 0 ? (
-          <div className="article-card-grid">
+          <ScrollReveal className="article-card-grid scroll-stagger" rootMargin="0px 0px -8% 0px">
             {visibleArticles.length > 0 ? (
               visibleArticles.map((article) => (
                 <ArticleCard key={article.id} article={article} />
@@ -106,7 +111,7 @@ export function StruggleFilter({
                 point.
               </p>
             )}
-          </div>
+          </ScrollReveal>
         ) : null}
       </div>
     </section>

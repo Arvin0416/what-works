@@ -1,10 +1,11 @@
 import { SectionLabel } from "./section-label";
+import { ScrollReveal } from "./scroll-reveal";
 
 export function Hero() {
   return (
     <section className="hero" aria-labelledby="hero-heading">
       <div className="site-container hero__grid">
-        <div className="hero__copy">
+        <ScrollReveal className="hero__copy" rootMargin="0px 0px -4% 0px">
           <SectionLabel>What Works Daily</SectionLabel>
           <h1 id="hero-heading">When life gets real, find what works.</h1>
           <p className="hero__lede">
@@ -19,10 +20,10 @@ export function Hero() {
               Browse by struggle
             </a>
           </div>
-        </div>
+        </ScrollReveal>
 
-        <div className="hero__visual" aria-hidden="true">
-          <div className="hero__art">
+        <ScrollReveal className="hero__visual" rootMargin="0px 0px -4% 0px">
+          <div className="hero__art" aria-hidden="true">
             <div className="hero__art-top">
               <span>Faith field guide</span>
               <span>For real life</span>
@@ -39,7 +40,7 @@ export function Hero() {
             <span className="hero__art-block hero__art-block--acid" />
             <span className="hero__art-block hero__art-block--coral" />
           </div>
-        </div>
+        </ScrollReveal>
       </div>
     </section>
   );
