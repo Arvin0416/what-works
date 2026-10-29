@@ -1,5 +1,6 @@
 import { getCategoryById } from "../../lib/content/categories";
 import type { VideoRecommendation } from "../../lib/content/types";
+import { PointerTilt } from "./pointer-tilt";
 
 type VideoCardProps = {
   video: VideoRecommendation;
@@ -25,26 +26,28 @@ export function VideoCard({ video, artworkIndex }: VideoCardProps) {
         rel="noreferrer"
         aria-label={`Watch ${video.title} on YouTube`}
       >
-        <div className="video-card__media">
-          {video.thumbnailUrl ? (
-            // eslint-disable-next-line @next/next/no-img-element
-            <img
-              src={video.thumbnailUrl}
-              alt=""
-              aria-hidden="true"
-              width={640}
-              height={360}
-              loading="lazy"
-              decoding="async"
-            />
-          ) : (
-            <div className={`video-card__artwork ${artworkClass}`} aria-hidden="true">
-              <span>What works</span>
-              <strong>{category?.label ?? "Faith"}</strong>
-            </div>
-          )}
-          <span className="video-card__watch">Watch</span>
-        </div>
+        <PointerTilt className="video-card__media-interactive">
+          <div className="video-card__media">
+            {video.thumbnailUrl ? (
+              // eslint-disable-next-line @next/next/no-img-element
+              <img
+                src={video.thumbnailUrl}
+                alt=""
+                aria-hidden="true"
+                width={640}
+                height={360}
+                loading="lazy"
+                decoding="async"
+              />
+            ) : (
+              <div className={`video-card__artwork ${artworkClass}`} aria-hidden="true">
+                <span>What works</span>
+                <strong>{category?.label ?? "Faith"}</strong>
+              </div>
+            )}
+            <span className="video-card__watch">Watch</span>
+          </div>
+        </PointerTilt>
 
         <div className="video-card__body">
           <div className="video-card__meta">

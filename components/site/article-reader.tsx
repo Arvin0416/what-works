@@ -30,7 +30,7 @@ export function ArticleReader({ article }: ArticleReaderProps) {
       <header className="today-section article-reader__header">
         <ScrollReveal className="site-container article-reader__header-reveal" rootMargin="0px 0px -4% 0px">
           <div style={{ maxWidth: "52rem", marginInline: "auto" }}>
-            <p className="section-kicker" style={{ color: "var(--acid-green)" }}>
+            <p className="section-kicker" style={{ color: "var(--ink)" }}>
               Published guide · {category?.label ?? "Faith guide"}
             </p>
             <h1 id="article-title" style={{ fontSize: "clamp(2.8rem, 7vw, 6.8rem)" }}>
@@ -40,7 +40,7 @@ export function ArticleReader({ article }: ArticleReaderProps) {
               style={{
                 maxWidth: "42rem",
                 marginTop: "1.5rem",
-                color: "rgb(247 241 229 / 0.78)",
+                color: "var(--muted-ink)",
                 fontSize: "1.2rem",
                 lineHeight: 1.45,
               }}
@@ -52,7 +52,7 @@ export function ArticleReader({ article }: ArticleReaderProps) {
               style={{
                 justifyContent: "flex-start",
                 marginTop: "2rem",
-                color: "rgb(247 241 229 / 0.72)",
+                color: "var(--muted-ink)",
               }}
             >
               <time dateTime={article.publishedAt}>

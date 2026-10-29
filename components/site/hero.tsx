@@ -1,4 +1,5 @@
 import { SectionLabel } from "./section-label";
+import { PointerTilt } from "./pointer-tilt";
 import { ScrollReveal } from "./scroll-reveal";
 
 export function Hero() {
@@ -23,23 +24,25 @@ export function Hero() {
         </ScrollReveal>
 
         <ScrollReveal className="hero__visual" rootMargin="0px 0px -4% 0px">
-          <div className="hero__art" aria-hidden="true">
-            <div className="hero__art-top">
-              <span>Faith field guide</span>
-              <span>For real life</span>
+          <PointerTilt className="hero__art-interactive">
+            <div className="hero__art" aria-hidden="true">
+              <div className="hero__art-top">
+                <span>Faith field guide</span>
+                <span>For real life</span>
+              </div>
+              <p className="hero__art-word">
+                what
+                <br />
+                works
+              </p>
+              <div className="hero__art-note">
+                <span>Start here</span>
+                <strong>One honest next step.</strong>
+              </div>
+              <span className="hero__art-block hero__art-block--acid" />
+              <span className="hero__art-block hero__art-block--coral" />
             </div>
-            <p className="hero__art-word">
-              what
-              <br />
-              works
-            </p>
-            <div className="hero__art-note">
-              <span>Start here</span>
-              <strong>One honest next step.</strong>
-            </div>
-            <span className="hero__art-block hero__art-block--acid" />
-            <span className="hero__art-block hero__art-block--coral" />
-          </div>
+          </PointerTilt>
         </ScrollReveal>
       </div>
     </section>

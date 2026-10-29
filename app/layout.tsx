@@ -14,7 +14,7 @@ export default function RootLayout({
   children: ReactNode;
 }>) {
   return (
-    <html lang="en">
+    <html lang="en" data-theme="day">
       <body className="site-body">
         <a className="skip-link" href="#main-content">
           Skip to main content

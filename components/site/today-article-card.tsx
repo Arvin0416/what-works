@@ -1,5 +1,6 @@
 import { getCategoryById } from "../../lib/content/categories";
 import type { PublishedArticle } from "../../lib/content/types";
+import { PointerTilt } from "./pointer-tilt";
 import { ScrollReveal } from "./scroll-reveal";
 
 type TodayArticleCardProps = {
@@ -26,25 +27,27 @@ export function TodayArticleCard({ article }: TodayArticleCardProps) {
         </ScrollReveal>
 
         <ScrollReveal className="today-card-reveal scroll-reveal--right" rootMargin="0px 0px -10% 0px">
-          <article className="today-card">
-            <div className="today-card__meta">
-              <span className="today-card__category">
-                {category?.label ?? "Faith guide"}
-              </span>
-              <span>{article.content.readingMinutes} min read</span>
-            </div>
-            <h3>
-              <a href={`/articles/${article.slug}`}>{article.content.title}</a>
-            </h3>
-            <p className="today-card__dek">{article.content.dek}</p>
-            <p className="today-card__summary">{article.content.summary}</p>
-            <div className="today-card__footer">
-              <a className="button button--acid" href={`/articles/${article.slug}`}>
-                Read today&apos;s guide
-              </a>
-              <span>{article.content.scriptureRefs.join(" / ")}</span>
-            </div>
-          </article>
+          <PointerTilt className="today-card-interactive">
+            <article className="today-card">
+              <div className="today-card__meta">
+                <span className="today-card__category">
+                  {category?.label ?? "Faith guide"}
+                </span>
+                <span>{article.content.readingMinutes} min read</span>
+              </div>
+              <h3>
+                <a href={`/articles/${article.slug}`}>{article.content.title}</a>
+              </h3>
+              <p className="today-card__dek">{article.content.dek}</p>
+              <p className="today-card__summary">{article.content.summary}</p>
+              <div className="today-card__footer">
+                <a className="button button--acid" href={`/articles/${article.slug}`}>
+                  Read today&apos;s guide
+                </a>
+                <span>{article.content.scriptureRefs.join(" / ")}</span>
+              </div>
+            </article>
+          </PointerTilt>
         </ScrollReveal>
       </div>
     </section>
